@@ -1,0 +1,16 @@
+*.pydevproject
+*.project
+*.egg-info
+*.class
+*.pyo
+*.pyc
+*.db
+*.sqlite
+*.DS_Store
+*.shp
+*.dbf
+*.shx
+*.zip
+*.json
+.idea/
+services.yml
