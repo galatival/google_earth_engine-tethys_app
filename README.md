@@ -26,10 +26,10 @@ There is also one Custom Setting that is used to specify the location of the API
 
 After install configure portal settings (portal_config.yml):
 
-To specify the location of the locale files for translation, replacing the path with where the app is installed:
+To specify the location of the locale files for translation, replacing the path with your local path:
 
 ```
-tethys settings --set LOCALE_PATHS "['C:\Users\Valerie\Documents\tethysdev\tethysapp-earth_engine\tethysapp\earth_engine\locale',]"
+tethys settings --set LOCALE_PATHS "['C:\Users\USERNAME\Documents\tethysdev\tethysapp-earth_engine\tethysapp\earth_engine\locale',]"
 ```
 
 To change the language displayed (supported language codes: 'es', 'es-pe', 'pt-br','en-us', 'en'):
