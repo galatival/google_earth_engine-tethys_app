@@ -819,6 +819,12 @@ var GEE_DATASETS = (function () {
 
         console.log('current language: ' + languageCode);
 
+        if (languageCode === 'en-us') { // remap so that the language codes match the dictionary
+            languageCode = 'en';
+        } else if (languageCode === 'es-pe') {
+            languageCode = 'es';
+        };
+
         // translate tethys html elements
         // Header
         $('.settings-button').find('a').attr({ "data-original-title": translatedStrings[languageCode]['settings'] }); // settings

@@ -24,6 +24,20 @@ The app has two Custom Settings that can be used to configure the app to use a [
 There is also one Custom Setting that is used to specify the location of the API key for the [Bing Aerial imagery base map](http://www.bingmapsportal.com/):
 * **bing_key_file**: Path to the JSON file containing the Bing Aerial imagery API key
 
+After install configure portal settings (portal_config.yml):
+
+To specify the location of the locale files for translation, replacing the path with where the app is installed:
+
+```
+tethys settings --set LOCALE_PATHS "['C:\Users\Valerie\Documents\tethysdev\tethysapp-earth_engine\tethysapp\earth_engine\locale',]"
+```
+
+To change the language displayed (supported language codes: 'es', 'es-pe', 'pt-br','en-us', 'en'):
+
+```
+tethys settings --set LANGUAGE_CODE "pt-br"
+```
+
 ## Authenticate for Development
 
 Alternatively, you can authenticate with your personal Google Earth Engine account by running the following command:
