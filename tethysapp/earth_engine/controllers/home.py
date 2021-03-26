@@ -159,8 +159,12 @@ def home(request):
     )
 
     # grab the key for the Bing Aerial imagery to use in the next object
-    with open(app.get_custom_setting('bing_key_file')) as f:
-        bing_key = json.load(f)
+    if app.get_custom_setting('bing_key_file'):
+        with open(app.get_custom_setting('bing_key_file')) as f:
+            bing_file = json.load(f)
+            bing_key = bing_file['key']
+    else:
+        bing_key = 'na'
 
     map_view = MapView(
         height='100%',
@@ -176,7 +180,7 @@ def home(request):
             {'CartoDB': {'style': 'dark', 'control_label': _('CartoDB-dark')}},
             'OpenStreetMap', # for some reason setting the labels here breaks everything. maybe bc it's too close to the default?
             'Stamen', # here too
-            {'Bing': {'key': bing_key['key'], 'imagerySet': 'Aerial', 'control_label': _('BingAerial')}}
+            {'Bing': {'key': bing_key, 'imagerySet': 'Aerial', 'control_label': _('BingAerial')}}
         ],
         view=MVView(
             projection='EPSG:4326',
