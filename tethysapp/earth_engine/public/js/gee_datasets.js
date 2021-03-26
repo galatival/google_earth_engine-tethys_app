@@ -33,7 +33,7 @@ var GEE_DATASETS = (function () {
             'zoom-out': 'esZoom out',
             'extent-zoom': 'esFit to extent',
         },
-        'pt-br': {
+        'pt': {
             'modal-loading': 'ptLoading... This may take up to 5 minutes. Please wait.',
             'modal-error': 'ptRequest failed to send. Please try again with a smaller AOI or fewer selected features.',
             'drawn': 'ptDrawn',
@@ -819,10 +819,14 @@ var GEE_DATASETS = (function () {
 
         console.log('current language: ' + languageCode);
 
-        if (languageCode === 'en-us') { // remap so that the language codes match the dictionary
+        if (languageCode.includes('en')) { // remap so that the language codes match the dictionary (by generalizing locale)
             languageCode = 'en';
-        } else if (languageCode === 'es-pe') {
+        } else if (languageCode.includes('es')) {
             languageCode = 'es';
+        } else if (languageCode.includes('pt')) {
+            languageCode = 'pt';
+        } else {
+            languageCode = 'es'; // set default as Spanish
         };
 
         // translate tethys html elements
