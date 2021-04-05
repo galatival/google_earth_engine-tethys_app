@@ -229,12 +229,12 @@ msgstr "NDVI 16-Day 500m"
 #: .\tethysapp\earth_engine\gee\products.py:33
 #: .\tethysapp\earth_engine\templates\earth_engine\home.html:94
 msgid "8DayNDVI"
-msgstr "8-day NDVI"
+msgstr "8-Day NDVI 30m"
 
 #: .\tethysapp\earth_engine\gee\products.py:44
 #: .\tethysapp\earth_engine\templates\earth_engine\home.html:95
 msgid "32DayNDVI"
-msgstr "32-day NDVI"
+msgstr "32-Day NDVI 30m"
 
 #: .\tethysapp\earth_engine\templates\earth_engine\home.html:20
 msgid "AppTitle"
