@@ -113,9 +113,9 @@ def get_image_collection_asset(platform, sensor, product, date_from=None, date_t
 
 
     try:
-        if collection == 'LANDSAT/LC08/C01/T1_32DAY_NDVI': # get image collections for ndvi separately
+        if collection == 'GetLandsat32DayNDVI': # get image collections for ndvi separately
             ee_collection = get_ndvi_col(date_from,date_to,31) # to mask clouds before calculating
-        elif collection == 'LANDSAT/LC08/C01/T1_8DAY_NDVI':
+        elif collection == 'GetLandsat8DayNDVI':
             ee_collection = get_ndvi_col(date_from,date_to,7)
         else: # all other (non-ndvi) products
             ee_collection = ee.ImageCollection(collection)

@@ -31,7 +31,7 @@ EE_PRODUCTS = {
         '8': {
             'ndvi8': {
                 'display': _('8DayNDVI'),
-                'collection': 'LANDSAT/LC08/C01/T1_8DAY_NDVI', # these products are bad with clouds, for now just calculating ndvi w a cloud mask
+                'collection': 'GetLandsat8DayNDVI', # the premade products are bad, for now just calculating ndvi w a cloud mask
                 'index': 'NDVI',
                 'vis_params': {
                     'min': 0.0,
@@ -42,7 +42,7 @@ EE_PRODUCTS = {
             },
             'ndvi32': {
                 'display': _('32DayNDVI'),
-                'collection': 'LANDSAT/LC08/C01/T1_32DAY_NDVI', # these products are bad with clouds, for now just calculating ndvi w a cloud mask
+                'collection': 'GetLandsat32DayNDVI', # the premade products are bad, for now just calculating ndvi w a cloud mask
                 'index': 'NDVI',
                 'vis_params': {
                     'min': 0.0,
