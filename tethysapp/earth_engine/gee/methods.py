@@ -214,7 +214,9 @@ def get_time_series_from_image_collection(platform, sensor, product, index_name,
 
             if date_from is not None:
                 if index_name is not None:
-                    if collection_name == 'LANDSAT/LC08/C01/T1_32DAY_NDVI':
+                    if collection_name == 'GetLandsat8DayNDVI':
+                        indexCollection = get_ndvi_col(date_from,date_to,7) # calculate 8-day ndvi composite
+                    elif collection_name == 'GetLandsat32DayNDVI':
                         indexCollection = get_ndvi_col(date_from,date_to,31) # calculate 32-day ndvi composite
                     else:
                         indexCollection = ee.ImageCollection(collection_name) \
