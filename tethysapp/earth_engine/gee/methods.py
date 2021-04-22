@@ -105,9 +105,9 @@ def get_image_collection_asset(platform, sensor, product, date_from=None, date_t
     vis_params = ee_product.get('vis_params', {})
     cloud_mask = ee_product.get('cloud_mask', None)
 
-    log.debug(f'Image Collection Name: {collection}')
-    log.debug(f'Band Selector: {index}')
-    log.debug(f'Vis Params: {vis_params}')
+    #log.debug(f'Image Collection Name: {collection}')
+    #log.debug(f'Band Selector: {index}')
+    #log.debug(f'Vis Params: {vis_params}')
 
     tile_url_template = "https://earthengine.googleapis.com/map/{mapid}/{{z}}/{{x}}/{{y}}"
 
@@ -195,7 +195,7 @@ def get_time_series_from_image_collection(platform, sensor, product, index_name,
 
     for geom in geometry.geometries:
         print(f'Computing Time Series for Geometry of Type: {geom.type}')
-        log.debug(f'Computing Time Series for Geometry of Type: {geom.type}')
+        #log.debug(f'Computing Time Series for Geometry of Type: {geom.type}')
 
         try:
             ee_geometry = None
@@ -259,6 +259,6 @@ def get_time_series_from_image_collection(platform, sensor, product, index_name,
             log.exception(
                 'An error occurred while attempting to retrieve the time series.')
 
-    log.debug(f'Time Series: {time_series}')
+    #log.debug(f'Time Series: {time_series}')
     print(f'Time Series: {time_series}')
     return time_series
