@@ -12,7 +12,7 @@ class EarthEngine(TethysAppBase):
     icon = 'earth_engine/images/earth-engine-logo.png'
     package = 'earth_engine'
     root_url = 'earth-engine'
-    color = '#524745'
+    color = '#007057'
     description = 'This app creates time series of vegetation and evapotranspiration in the context of watersheds and indigenous territories in Ucayali-Peru and Acre-Brazil'
     tags = 'ET, NDVI, Vegetation, MODIS, Landsat, Time Series'
     enable_feedback = False
