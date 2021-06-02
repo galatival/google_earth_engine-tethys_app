@@ -32,6 +32,7 @@ var GEE_DATASETS = (function () {
             'zoom-in': 'esZoom in',
             'zoom-out': 'esZoom out',
             'extent-zoom': 'esFit to extent',
+            'log-in': 'esLog In',
         },
         'pt': {
             'modal-loading': 'ptLoading... This may take up to 5 minutes. Please wait.',
@@ -53,6 +54,7 @@ var GEE_DATASETS = (function () {
             'zoom-in': 'ptZoom in',
             'zoom-out': 'ptZoom out',
             'extent-zoom': 'ptFit to extent',
+            'log-in': 'ptLog In',
         },
         'en': {
             'modal-loading': 'Loading... This may take up to 5 minutes. Please wait.',
@@ -74,6 +76,7 @@ var GEE_DATASETS = (function () {
             'zoom-in': 'Zoom in',
             'zoom-out': 'Zoom out',
             'extent-zoom': 'Fit to extent',
+            'log-in': 'Log In'
         }
     };
 
@@ -831,11 +834,14 @@ var GEE_DATASETS = (function () {
 
         // translate tethys html elements
         // Header
-        $('.settings-button').find('a').attr({ "data-original-title": translatedStrings[languageCode]['settings'] }); // settings
-        $('.exit-button').find('a').attr({ "data-original-title": translatedStrings[languageCode]['exit'] }); // exit
+        $('.settings-button').find('a').attr({ "data-original-title": translatedStrings[languageCode]['settings'] }); // settings button
+        $('.exit-button').find('a').attr({ "data-original-title": translatedStrings[languageCode]['exit'] }); // exit button
+        $('.login-button').find('a').attr({ "data-original-title": translatedStrings[languageCode]['log-in'] }); // log in button hover text
+        $('.login-button').find('a').text(translatedStrings[languageCode]['log-in']); // log in button text
         // Map controls
         $('#basemap_dropdown').text(translatedStrings[languageCode]['bm-select'] + ' '); // basemap selector
         $('.ol-full-screen :button').attr({ "title": translatedStrings[languageCode]['full-screen'] }) // full screen toggle
+        //$('.ol-full-screen :button').attr({ "title": translatedStrings[languageCode]['full-screen'] }) // attributions
         $('.ol-zoom-in').attr({ "title": translatedStrings[languageCode]['zoom-in'] }); 
         $('.ol-zoom-out').attr({ "title": translatedStrings[languageCode]['zoom-out'] }); 
         $('.ol-zoom-extent :button').attr({ "title": translatedStrings[languageCode]['extent-zoom'] });
