@@ -1067,7 +1067,7 @@ var GEE_DATASETS = (function () {
             opacity: 1
         });
         // Insert below the draw layer (so drawn polygons and points render on top of data layer).
-        m_map.getLayers().insertAt(5, m_gee_layer); // the other basemaps are at 0-4
+        m_map.getLayers().insertAt(3, m_gee_layer); // the other basemaps are at 0-4
     };
 
     
