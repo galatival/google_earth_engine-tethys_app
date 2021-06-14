@@ -15,6 +15,7 @@ requirements:
       - geojson
       - pandas
       - plotly
+      - pyshp
   pip:
 
 post:

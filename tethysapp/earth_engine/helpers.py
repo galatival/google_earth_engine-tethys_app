@@ -1,7 +1,9 @@
 import pandas as pd
+import os
 from plotly import graph_objs as go
 from django.utils.translation import gettext as _
 import datetime as dt
+import glob
 
 def compute_dates_for_product(product_dict):
     """

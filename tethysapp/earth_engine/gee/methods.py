@@ -199,7 +199,7 @@ def get_time_series_from_image_collection(platform, sensor, product, index_name,
 
         try:
             ee_geometry = None
-            if isinstance(geom, geojson.Polygon):
+            if isinstance(geom, (geojson.Polygon)):
                 ee_geometry = ee.Geometry.Polygon(geom.coordinates)
             elif isinstance(geom, geojson.Point):
                 ee_geometry = ee.Geometry.Point(geom.coordinates)

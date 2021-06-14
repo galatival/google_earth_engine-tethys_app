@@ -1,11 +1,12 @@
 from tethys_sdk.workspaces import app_workspace
 import os
+import tempfile
+import zipfile
 import ee
 import logging
 import datetime as dt
-import geojson
 import json
-from django.http import JsonResponse, HttpResponseNotAllowed
+from django.http import JsonResponse, HttpResponseNotAllowed, HttpResponseRedirect
 from django.utils.translation import ugettext as _
 from django.shortcuts import render
 from simplejson.errors import JSONDecodeError
@@ -16,6 +17,8 @@ from ..helpers import compute_dates_for_product
 from ..app import EarthEngine as app
 
 log = logging.getLogger(f'tethys.apps.{__name__}')
+
+
 
 @login_required()
 def home(request):
@@ -132,6 +135,7 @@ def home(request):
 
     select_layer = SelectInput(
         name='select_layer',
+        attributes={'id': 'select_layer'},
         display_text=_('LayerHeader'),
         multiple=True,
         initial=(),
@@ -202,6 +206,7 @@ def home(request):
         attributes={'id': 'map_view'},
         feature_selection=False
     )
+
 
     context = {
         'platform_select': platform_select,

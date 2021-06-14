@@ -11,7 +11,8 @@ var GEE_DATASETS = (function () {
 
     var public_interface;
 
-    var translatedStrings = { // small(?) dictionary for strings that are used in this script
+    // TODO: move this to the html/ put in another file?
+    const translatedStrings = { // small(?) dictionary for strings that are used in this script
         'es': {
             'modal-loading': 'esLoading... This may take up to 5 minutes. Please wait.',
             'modal-error': 'esRequest failed to send. Please try again with a smaller AOI or fewer selected features.',
@@ -33,6 +34,12 @@ var GEE_DATASETS = (function () {
             'zoom-out': 'esZoom out',
             'extent-zoom': 'esFit to extent',
             'log-in': 'esLog In',
+            'invalid-geojson': 'esInvalid geojson. Please validate your file and try again.',
+            'invalid-kml': 'esInvalid KML. Please validate your file and try again.',
+            'invalid-file-type': 'esIncorrect file type. Please select a geojson, KML, or zipped shapefile.',
+            'empty-file-input': "esNo file selected. Please choose a file using the 'Choose File' button, then add it to the map by clicking 'Add Selected File'.",
+            'unknown-platform': 'esUnknown platform selected. Please try again.',
+            'unknown-sensor': 'esUnknown platform or sensor selected. Please try again.',
         },
         'pt': {
             'modal-loading': 'ptLoading... This may take up to 5 minutes. Please wait.',
@@ -55,6 +62,12 @@ var GEE_DATASETS = (function () {
             'zoom-out': 'ptZoom out',
             'extent-zoom': 'ptFit to extent',
             'log-in': 'ptLog In',
+            'invalid-geojson': 'ptInvalid geojson. Please validate your file and try again.',
+            'invalid-kml': 'ptInvalid KML. Please validate your file and try again.',
+            'invalid-file-type': 'ptIncorrect file type. Please select a geojson, KML, or zipped shapefile.',
+            'empty-file-input': "ptNo file selected. Please choose a file using the 'Choose File' button, then add it to the map by clicking 'Add Selected File'.",
+            'unknown-platform': 'ptUnknown platform selected. Please try again.',
+            'unknown-sensor': 'ptUnknown platform or sensor selected. Please try again.',
         },
         'en': {
             'modal-loading': 'Loading... This may take up to 5 minutes. Please wait.',
@@ -76,7 +89,13 @@ var GEE_DATASETS = (function () {
             'zoom-in': 'Zoom in',
             'zoom-out': 'Zoom out',
             'extent-zoom': 'Fit to extent',
-            'log-in': 'Log In'
+            'log-in': 'Log In',
+            'invalid-geojson': 'Invalid geojson. Please validate your file and try again.',
+            'invalid-kml': 'Invalid KML. Please validate your file and try again.',
+            'invalid-file-type': 'Incorrect file type. Please select a geojson, KML, or zipped shapefile.',
+            'empty-file-input': "No file selected. Please choose a file using the 'Choose File' button, then add it to the map by clicking 'Add Selected File'.",
+            'unknown-platform': 'Unknown platform selected. Please try again.',
+            'unknown-sensor': 'Unknown platform or sensor selected. Please try again.',
         }
     };
 
@@ -159,6 +178,8 @@ var GEE_DATASETS = (function () {
     var loadedLayers = {}; // object to keep track of loaded layers and vector sources (by filename)
     var nameSelection = [];
 
+    var featureCounter = 1;
+
     /************************************************************************
     *                    PRIVATE FUNCTION DECLARATIONS
     *************************************************************************/
@@ -176,7 +197,10 @@ var GEE_DATASETS = (function () {
     var get_geometry, update_plot, show_plot_modal;
 
     var clear_layer,
-        change_style; 
+        change_style,
+        get_label,
+        add_upload_vector_layer,
+        get_stack_pos;
 
     /************************************************************************
     *                    PRIVATE FUNCTION IMPLEMENTATIONS
@@ -203,14 +227,16 @@ var GEE_DATASETS = (function () {
         // Handle selection of vector features
         m_map.on('click', function (e) {
             m_map.forEachFeatureAtPixel(e.pixel, function (f) {
-
                 // get the name of the selected feature
-                console.log('Selected Feature: ' + f.get('Label_Name'));
-                var selIndex = nameSelection.indexOf(f.get('Label_Name')); // using names instead of the layers because it's more consistent
+                let featureLabel = get_label(f);
+
+                console.log('Selected Feature: ' + featureLabel);
+                var selIndex = nameSelection.indexOf(featureLabel); // using names instead of the layers because it's more consistent (but is awful!! and I should try and find a better way)
+
 
                 if (selIndex < 0) { // if the feature is not already selected, select it
                     featuresSelection.push(f); // add to array
-                    nameSelection.push(f.get('Label_Name'));
+                    nameSelection.push(featureLabel);
 
                     f.setProperties({ 'selected': 'true' }); // mark that this feature should be selected
                     change_style(f, true, true, null);
@@ -220,11 +246,18 @@ var GEE_DATASETS = (function () {
                     nameSelection.splice(selIndex, 1);
 
                     f.setProperties({ 'selected': 'false' }); // mark that this feature should not be selected
-                    let strokeColor = nameFields[f.get('Layer_Name')][0];
+                    let strokeColor;
+                    try {
+                        strokeColor = nameFields[f.get('Layer_Name')][0];
+                    }
+                    catch (err) {
+                        strokeColor = '#7d6aab'
+                    }
+                    
                     change_style(f, labelAll, false, strokeColor);
                 }
 
-                return true; // I'm pretty sure this fixes the double selection bug but i'll keep the print statements in case it comes up again
+                return true; 
             },
                 {
                     layerFilter: function (layer) { // only select the feature if it is the currently loaded vector file
@@ -267,8 +300,14 @@ var GEE_DATASETS = (function () {
             if (sel.length < 1) {
                 
                 featuresSelection.forEach(function (f, index) {
-                    f.setProperties({ 'selected': 'false' }); 
-                    let strokeColor = nameFields[f.get('Layer_Name')][0];
+                    f.setProperties({ 'selected': 'false' });
+                    let strokeColor;
+                    try {
+                        strokeColor = nameFields[f.get('Layer_Name')][0];
+                    }
+                    catch (err) {
+                        strokeColor = '#7d6aab' // set as a default color if uploaded
+                    }
                     change_style(f, labelAll, false, strokeColor);
                 });
                 featuresSelection = []; // clear array of selected features
@@ -348,30 +387,157 @@ var GEE_DATASETS = (function () {
             update_plot();
         });
 
+        // adds the selected file from the input to the map
+        $('#submit-input-button').on('click', function () {
+            
 
-        /****
-        The files are located in the static folder/the public data in the tethysapp folder (default is .tethys/static/earth_engine/data/FileName.geojson)
-        for now they are in my local tethysdev folder, when we publish we'll have to move
-        Setting up: http://docs.tethysplatform.org/en/stable/installation/production/configuration/basic/static_and_workspaces.html
-        More info: http://docs.tethysplatform.org/en/stable/tethys_sdk/extensions/templates_and_static_files.html
-        ****/
+            var file = $('#file-input').prop('files')[0];
+
+            // check the extension of the uploaded file
+            // accepts: kml, geojson, zipped shapefile (.shp, (.prj,) .dbf)
+            // error messages for missing files in archive are in shp2geojson.js/preview.js
+            let extension = $('#file-input').prop('value').split('.')[$('#file-input').prop('value').split('.').length - 1];
+
+            // use the value of the file selector element which gives a fake path to get just the filename
+            try {
+                var filename = $('#file-input').prop('value').split('\\')[2].split('.')[0];
+            }
+            catch (err) { // throw error if no file selected (the html element value will be undefined)
+                console.log(err);
+                alert(translatedStrings[languageCode]['empty-file-input']) 
+                return;
+            }
+
+            var uploadVectorSource; // initialize vector source variable (defined differently depending on file type)
+
+            if (extension === 'zip') { // shapefile loading with shp2geojson.js: https://github.com/gipong/shp2geojson.js
+                // converts from zipped shapefile to geojson
+                loadshp({
+                    url: file,
+                    encoding: 'utf-8'//,
+                    //EPSG: 4326 // the .prj file should have this information so I don't want to overwrite it
+                }, function (geojson) { 
+
+                        let features = new ol.format.GeoJSON({ geometryName: filename }).readFeatures( // geometryName set to the name of the file, so it can be carried over to the features when selecting
+                            geojson
+                        );
+                        console.log(features)
+                        uploadVectorSource = new ol.source.Vector({ // defines the vector source
+                            features: features
+                        });
+
+                        filename = add_upload_vector_layer(uploadVectorSource, filename); // adds to map, sets styles, adds to list of loaded layers, etc
+
+                        var newLayer = new Option(filename, filename, true, true) // creates new option that is added automatically
+                        $('#select_layer').append(newLayer).trigger('change'); // appends new option to the select
+
+
+                        return;
+                        
+
+                });
+
+            }
+            else { // geojson/kml
+                // need to read the file first
+                var reader = new FileReader(); 
+                reader.onload = function () {
+
+
+                    if (extension === 'geojson' || extension === 'json') { // create a vector source from a geojson
+                        console.log('creating vector source from geojson file');
+                        try {
+                            let features = new ol.format.GeoJSON({ geometryName: filename }).readFeatures(reader.result);
+                            uploadVectorSource = new ol.source.Vector({
+                                features: features
+                            });
+                        }
+                        catch (err) {
+                            alert(translatedStrings[languageCode]['invalid-geojson']); 
+                            console.error(err);
+                            return;
+                        };
+
+                    }
+                    else if (extension === 'kml') { // create a vector source from a kml
+                        console.log('creating vector source from kml file');
+
+                        try {
+                            let features = new ol.format.KML({ extractStyles: false }).readFeatures(reader.result); 
+                            uploadVectorSource = new ol.source.Vector({
+                                features: features
+                            });
+                        }
+                        catch (err) {
+                            alert(translatedStrings[languageCode]['invalid-kml']); 
+                            console.error(err);
+                            return;
+                        };
+
+                        uploadVectorSource.forEachFeature(function (f) {
+                            // get rid of the z coords (won't send over and get the time series with them)
+                            let coords = f.getGeometry().flatCoordinates;
+                            if (coords.length === 3) {
+                                f.getGeometry().flatCoordinates = [coords[0], coords[1]]; // set as just the first two
+                                f.getGeometry().format = 'XY'; // change the format from xyz to xy
+                            };
+                            // set the geometry name property
+                            //f.setGeometryName(filename);
+                            return;
+                        })
+                    }
+                    else { // not a zipped file, geojson, or kml
+                        alert(translatedStrings[languageCode]['invalid-file-type']); 
+                        $('#file-input').val(''); // clears the input file selection
+                        return;
+                    };
+
+                    filename = add_upload_vector_layer(uploadVectorSource, filename);
+
+                    var newLayer = new Option(filename, filename, true, true); // creates new option that is added automatically
+                    $('#select_layer').append(newLayer).trigger('change'); // appends new option to the select
+                    
+                    
+
+                };
+
+                reader.readAsText(file); // this is what starts reading the file, and on the load the above code will execute
+
+            };
+
+        });
 
         // Layer Dropdown
         $('#select_layer').on('change', function () {
             let layers = $('#select_layer').val() || [];
 
             let loadedLayerNames = Object.keys(loadedLayers) // get only the keys (layer names)
-
             var toLoad = layers.filter(value => !loadedLayerNames.includes(value)) // grab only the ones we don't already have loaded
-            var toRemove = loadedLayerNames.filter(value => !layers.includes(value)) // grab layers that are no longer selected
+            // if the file name does not end in .geojson (supposedly the uploaded files), do not add it again
+            // this could be improved...
+            for (let i = 0; i < toLoad.length; i++) {
+                let splitted = toLoad[i].split('.')[toLoad[i].split('.').length - 1];
+                if (splitted != 'geojson') {
+                    toLoad.splice(i, 1);
+                };
+            };
+
+            var toRemove = loadedLayerNames.filter(value => !layers.includes(value)); // grab layers that are no longer selected
 
             // if a layer is not already loaded, add it
-            toLoad.forEach(function (currentValue) { // idk why this won't work as .map() but oh well?
-                add_vector_layer(currentValue);
+            toLoad.forEach(function (currentValue) {
+                let fileurl = '/static/earth_engine/data/' + currentValue;
+                add_vector_layer(fileurl,currentValue);
             });
 
             // remove layers that are not selected
             toRemove.forEach(function (layerName) {
+                // if the file is also an uploaded file, remove it from the list (since we lose the file (i think) after it's not in the input form)
+                let splitted = layerName.split('.')[layerName.split('.').length - 1] // if it's one of our files it will end in .geojson
+                if (splitted != 'geojson') { // remove it from the options
+                    $("#select_layer option[value='" + layerName + "']").remove();
+                }
+                // remove the layer from the map
                 clear_layer(layerName);
             });
 
@@ -391,7 +557,7 @@ var GEE_DATASETS = (function () {
                 let strokeColor = nameFields[Object.keys(loadedLayers).find(key => loadedLayers[key] === l)][0];
 
                 layer.forEachFeature(function (f) { // go through each feature
-                    if (f.getStyle() == null || f.getStyle()[0].getStroke().getColor() != '#31d2d8') { // i.e., not selected
+                    if (f.getStyle() == null || f.getStyle()[0].getStroke().getColor === '#7d6aab' || f.getStyle()[0].getStroke().getColor() != '#31d2d8') { // i.e., not selected
                         // could do condition differently if i set a property for each feature when adding the vector layer
                         change_style(f, labelAll, false, strokeColor); // deselected and labels if checked
                     } else {
@@ -409,6 +575,189 @@ var GEE_DATASETS = (function () {
 
     }; // end bind_controls
 
+    add_upload_vector_layer = function (vectorSource, filename) {
+
+        
+        // get the geometry type of the features
+        var geomType = vectorSource.getFeatures()[0].getGeometry().getType(); // the value should be Point, LineString, or Polygon
+        
+        if (filename in loadedLayers) { // if it matches the name of an already loaded layer, rename the layer
+            var counter = 1;
+            while (true) { // will keep indexing the counter until it finds a nonmatch
+                let newFilename = filename + '(' + String(counter) + ')';
+                if (!(newFilename in loadedLayers)) {
+                    filename = newFilename;
+                    console.log('duplicated file name. new filename: ' + filename)
+                    
+                    // TODO: try to update the geometryname property?
+                    /*
+                    vectorSource.forEachFeature(function (f) {
+                        console.log(f.getGeometryName())
+                        f.setGeometryName(filename)
+                    }) */
+                    console.log(vectorSource.getFeatures()[0].getGeometryName())
+                    break;
+                }
+                else {
+                    counter++;
+                    continue;
+                };
+            };
+            
+        };
+
+        // style things...
+        let deselectClone = deselectStyle.clone(); // make a clone so other already loaded layers won't change styles
+        deselectClone.getStroke().setColor('#7d6aab'); // set as a default color for now
+
+        // if the feature is a point, define extra style params
+        if (geomType.toLowerCase().indexOf('point') > -1) {
+            let pointIm = new ol.style.Circle({
+                radius: 7,
+                fill: new ol.style.Fill({ color: 'rgba(134, 206, 226, 0.01)' }),
+                stroke: new ol.style.Stroke({ color: '#7d6aab', width: 2 })
+            })
+            deselectClone.setImage(pointIm)
+        };
+
+
+        let style = [deselectClone, labelStyle];
+
+        m_shapefile_layer = new ol.layer.Vector({
+            source: vectorSource,
+            style: style,
+            className: filename
+        });
+
+        // label features if box is checked
+        if (labelAll) { // if the label layer button is checked
+            m_shapefile_layer.setStyle(function (feature) {
+                let label = get_label(feature);
+                labelStyle.getText().setText(label);
+                return style;
+            })
+        } else { // if the label layer button is unchecked (need this to reset the labelStyle to having Null text)
+            m_shapefile_layer.setStyle(function (feature) {
+                labelStyle.getText().setText(null);
+                return style;
+            })
+        };
+
+        // order them based on if they're a point (top), line (middle), or polygon
+        // and we'll hope that no one is adding a ton of files that overlap so that the selection will get weird :)
+        var stackPos = get_stack_pos(filename, geomType);
+
+        // adds to the map 
+        m_map.getLayers().insertAt(stackPos, m_shapefile_layer);
+
+        // zoom to the extent
+        try { // this works for shapefiles...?
+            m_map.getView().fit(vectorSource.getExtent());
+        }
+        catch (err) { 
+            console.log('Error in zooming to extent: ', err)
+            var listenerKey = vectorSource.on("change", function (e) { // this works for geojson and kml files (idk why probably something with the way the vector source is defined)
+                if (vectorSource.getState() == 'ready') {
+                    m_map.getView().fit(vectorSource.getExtent());
+                    ol.Observable.unByKey(listenerKey); // unregister "change" listener
+                };
+            });
+        };
+
+        // add to dictionary to keep track of loaded layers
+        loadedLayers[filename] = [m_shapefile_layer, vectorSource];
+
+        // define style variables for when it's clicked later on
+        nameFields[filename] = ['#7d6aab', 25]; // default purple color for outline and always order it at the top of the layer stack
+
+        return (filename); // in case the file name has been modified here, return it
+        
+    };
+
+    // manual ordering of loaded/uploaded layers
+    get_stack_pos = function (filename,geomType) {
+        // manual ordering so you're able to select the most potential features
+        // largest layers go on bottom, smaller ones on top since many will overlap
+        // uploaded layers will go on top of the stored layers
+        // polygons on bottom, lines in middle, points on top
+        var stackPos = 6;
+        var currentLayerPos;
+        try {
+            currentLayerPos = nameFields[filename][1];
+        }
+        catch (err) {
+            console.log(err)
+            if (geomType.toLowerCase().indexOf('polygon') > -1) currentLayerPos = 25;
+            else if (geomType.toLowerCase().indexOf('line') > -1) currentLayerPos = 35;
+            else if (geomType.toLowerCase().indexOf('point') > -1) currentLayerPos = 45;
+            else currentLayerPos = 8;
+        }
+        
+        if (m_gee_layer) { // have to shift up an index if imagery is loaded
+            stackPos = 7;
+        };
+
+        // it's a little weird to relate the order from the dictionary to the stack, so for now this goes through
+        // each added layer from the bottom and compares the dictionary orders and determines the position it should
+        // be inserted at from there
+        for (var i = stackPos; i < (0 || m_map.getLayers().getArray().length); i++) {
+            let compLayer = m_map.getLayers().getArray()[i]; // the already added layer we are comparing to
+            let compLayerPos
+            try {
+                compLayerPos = nameFields[compLayer.values_.className][1]; // get the order from the dictionary
+            }
+            catch (err) {
+                console.log(err)
+                if (geomType.toLowerCase().indexOf('polygon') > -1) compLayerPos = 25;
+                else if (geomType.toLowerCase().indexOf('line') > -1) compLayerPos = 35;
+                else if (geomType.toLowerCase().indexOf('point') > -1) compLayerPos = 45;
+                else compLayerPos = 8;
+            }
+
+            if (currentLayerPos > compLayerPos) { // set as one above and continue to next
+                stackPos = i + 1;
+            } else { break };
+        };
+
+        return stackPos;
+    }
+
+    // gets the label for a feature
+    get_label = function (f) {
+
+        let featureLabel = f.get('Label_Name'); // this won't throw an error if there's no field called Label_Name
+
+        if (f.getId() !== void (0)) { // if the id is not void, then the label will just be the id to avoid setting it multiple times
+            return String(f.getId());
+        } else {
+            // this is mainly for uploaded files (at least that's what it's intended for):
+            if (featureLabel === void (0)) { // void(0) is the same as undefined, which is what we're looking for so we can name the feature
+                // if it's an uploaded file, look for a field that could be an identifier for a feature
+                let matching = ["object", "oid", "nombre", "nom", "name"]; // substrings to match for field names - idk how well this will work when applied but it can be adjusted
+                let fields = f.getKeys();
+
+                for (let i = 0; i < matching.length; i++) {
+                    if (fields.some(function (k) { return ~k.toLowerCase().indexOf(matching[i]) })) { // if it has a field that contains the matching string
+                        let matchedField = fields.filter(function (field) { // find a field that contains the substring
+                            return field.toLowerCase().indexOf(matching[i]) === 0;
+                        })[0]
+                        let layerName = f['geometryName_']; // gets the name of the layer
+                        featureLabel = layerName + '_' + f.get(matchedField); // the label name will be <FILENAME>_<OID> for this feature
+
+                        break; // if one is found, don't continue looking for other fields
+                    }
+                }
+                if (featureLabel === void (0)) { // if no fields found, give a generic name
+                    featureLabel = f['geometryName_'] + '_' + String(featureCounter); // since we don't know what to call it, give it a number (:
+                    featureCounter++; // increase the number so we don't get duplicates (: <- i don't like this it feels dumb
+                }
+            }
+            f.setId(String(featureLabel));
+        };
+
+        return String(featureLabel);
+    };
+
     // Changes style of a feature.
     change_style = function (feature, labelOn, highlightOn, strokeColor) {
         if (!m_shapefile_layer) { // if no layer loaded, return
@@ -419,17 +768,33 @@ var GEE_DATASETS = (function () {
         let tempLabelStyle = labelStyle.clone(); // make a clone that will store this text
 
         if (labelOn) { // turn on label for this feature
-            label = String(feature.get('Label_Name'));
+            label = get_label(feature);
             tempLabelStyle.getText().setText(label);
         } else { // turn off label for this feature
             tempLabelStyle.getText().setText(null);
         };
 
         if (highlightOn) { // set style to highlight
+            if (feature.getGeometry().getType() === 'Point') {
+                let pointIm = new ol.style.Circle({
+                    radius: 7,
+                    fill: new ol.style.Fill({ color: 'rgba(134,206,226,0.1)' }),
+                    stroke: new ol.style.Stroke({ color: '#31d2d8', width: 4 })
+                })
+                highlightStyle.setImage(pointIm)
+            }
             style = [highlightStyle, tempLabelStyle];
         } else { // set style to deselect
-            let temp = deselectStyle.clone()
+            let temp = deselectStyle.clone();
             temp.getStroke().setColor(strokeColor);
+            if (feature.getGeometry().getType() === 'Point') {
+                let pointIm = new ol.style.Circle({
+                    radius: 7,
+                    fill: new ol.style.Fill({ color: 'rgba(134,206,226,0.1)' }),
+                    stroke: new ol.style.Stroke({ color: '#7d6aab', width: 2 })
+                })
+                temp.setImage(pointIm);
+            }
             style = [temp, tempLabelStyle];
         };
 
@@ -438,21 +803,21 @@ var GEE_DATASETS = (function () {
     };
 
     // Loads the selected vector layer to the map.
-    add_vector_layer = function (file) {
-
+    add_vector_layer = function (fileurl,filename) {
         let deselectClone = deselectStyle.clone(); // make a clone so other already loaded layers won't change styles
-        deselectClone.getStroke().setColor(nameFields[file][0]); // get the color of the stroke associated with the file
+        deselectClone.getStroke().setColor(nameFields[filename][0]); // get the color of the stroke associated with the file
+
         let style = [deselectClone, labelStyle];
 
         m_shapefile_layer = new ol.layer.Vector({
             source: vectorSource = new ol.source.Vector({ // define the source where we are pulling the layer from
-                url: '/static/earth_engine/data/' + file,
+                url: fileurl,
                 format: new ol.format.GeoJSON(),
                 strategy: ol.loadingstrategy.all // bbox loading strat reloads features and makes it difficult to keep consistent styles
             }),
             style: style, 
             declutter: true,
-            className: file
+            className: filename
         });
 
         // label features if box is checked
@@ -469,28 +834,11 @@ var GEE_DATASETS = (function () {
             }) 
         }; 
 
-        // manual ordering so the selection works
-        var currentLayerPos = nameFields[file][1];
-        var stackPos = 6;
-        if (m_gee_layer) { // have to shift up an index if imagery is loaded
-            stackPos = 7;
-        };
-        console.log(m_map.getLayers())
-
-        // it's a little weird to relate the order from the dictionary to the stack, so for now this goes through
-        // each added layer from the bottom and compares the dictionary orders and determines the position it should
-        // be inserted at from there
-        for (var i = stackPos; i < (0 || m_map.getLayers().getArray().length); i++) {
-            let compLayer = m_map.getLayers().getArray()[i]; // the already added layer we are comparing to
-            let compLayerPos = nameFields[compLayer.values_.className][1]; // get the order from the dictionary
-            
-            if (currentLayerPos > compLayerPos) { // set as one above and continue to next
-                stackPos = i + 1;
-            } else {break};
-        };
-
-        m_map.getLayers().insertAt(stackPos, m_shapefile_layer); // the other basemaps are at positions 0-4
+        var stackPos = get_stack_pos(filename, null);
         
+        m_map.getLayers().insertAt(stackPos, m_shapefile_layer); // the other basemaps are at positions 0-4
+
+
         $("#loader").addClass("show"); // show loading image
 
         var listenerKey = vectorSource.on("change", function (e) { // ((this method only works with kml and geojson vector files))
@@ -501,7 +849,8 @@ var GEE_DATASETS = (function () {
         });
 
         // update dictionary to keep track of leaded layer/sources
-        loadedLayers[file] = [m_shapefile_layer, vectorSource];
+        loadedLayers[filename] = [m_shapefile_layer, vectorSource];
+
     }
 
     // Clears a vector layer from the map when it is removed from the list.
@@ -541,7 +890,7 @@ var GEE_DATASETS = (function () {
 
     update_sensor_options = function () {
         if (!m_platform in EE_PRODUCTS) {
-            alert("Unknown platform selected.");
+            alert(translatedStrings[languageCode]['unknown-platform']);
         };
 
         // Clear sensor options
@@ -568,7 +917,7 @@ var GEE_DATASETS = (function () {
 
     update_product_options = function () {
         if (!m_platform in EE_PRODUCTS || !m_sensor in EE_PRODUCTS[m_platform]) {
-            alert("Unknown platform or sensor selected.");
+            alert(translatedStrings[languageCode]['unknown-sensor']);
         };
 
         // Clear product options
@@ -735,10 +1084,9 @@ var GEE_DATASETS = (function () {
         var vectorSelection = []; // array to hold geojson formatted strings
 
         featuresSelection.forEach(function (f) {
-            console.log(f)
 
             // Reformat the geometry before adding to an array
-            let selectedName = f.get('Label_Name');
+            let selectedName = get_label(f);
 
             let temp_feat = geo.writeGeometry(f.getGeometry());
             temp_feat = temp_feat.substring(0, temp_feat.length - 1); // take off the last bracket
@@ -822,16 +1170,6 @@ var GEE_DATASETS = (function () {
 
         console.log('current language: ' + languageCode);
 
-        if (languageCode.includes('en')) { // remap so that the language codes match the dictionary (by generalizing locale)
-            languageCode = 'en';
-        } else if (languageCode.includes('es')) {
-            languageCode = 'es';
-        } else if (languageCode.includes('pt')) {
-            languageCode = 'pt';
-        } else {
-            languageCode = 'es'; // set default as Spanish
-        };
-
         // translate tethys html elements
         // Header
         $('.settings-button').find('a').attr({ "data-original-title": translatedStrings[languageCode]['settings'] }); // settings button
@@ -864,7 +1202,12 @@ var GEE_DATASETS = (function () {
         m_product = $("#product").val();
         INITIAL_START_DATE = m_start_date = $("#start_date").val();
         INITIAL_END_DATE = m_end_date = $("#end_date").val();
-        m_reducer = $("#reducer").val();        
+        m_reducer = $("#reducer").val();    
+
+        // allow the select input to have custom options
+        $('#select_layer').select2({
+            tags: true
+        })
 
     });
 
