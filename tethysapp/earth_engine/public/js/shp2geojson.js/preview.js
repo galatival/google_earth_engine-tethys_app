@@ -65,7 +65,7 @@ function loadshp(config, returnData) {
                         prjString = zip.file(/.prj$/i)[0];
                 }
                 catch (err) {
-                    alert(translatedStrings[languageCode][err]); // TODO: translate this? somehow?
+                    alert(translatedStrings[languageCode][err]); 
                     return ("bad shapefile " + err);
                 };
 

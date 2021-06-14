@@ -100,25 +100,25 @@ var GEE_DATASETS = (function () {
     };
 
     var nameFields = { // outline color and order to be added to the map (smaller features on top of the layer stack, for selection)
-        'mineria.geojson': ['#663d00', 24],
-        'MineriaIlegal.geojson': ['#663d00',23],
-        'Tis_titled.geojson': ['#ff3300',22],
-        'Tis_untitled.geojson': ['#b32400',21],
-        'Tis_reserves.geojson': ['#801a00',20],
-        'Tis_proposedreserves.geojson': ['#4d0f00', 19],
-        'Admin_ProjectoAssentamento_INCRA_2017.geojson': ['#330000', 18],
-        'Concesiones_reforestation.geojson': ['#000000',17],
-        'Concesiones_ecotourism.geojson': ['#000000',16],
-        'Concesiones_conservation.geojson': ['#000000',15],
-        'Concesiones_logging.geojson': ['#000000', 14],
-        'Proposed_conservation.geojson': ['#1a3300',13],
-        'ANP.geojson': ['#003300',12],
-        'petroleo_explorexploit.geojson': ['#52527a',11],
-        'petroleo_inprocess.geojson': ['#666699',10],
-        'watersheds_lev09_v1c.geojson': ['#000099',9],
-        'acre_municipalities.geojson': ['#000000',8],
-        'ucayali_DISTRITO.geojson': ['#000000',7],
-        'UCA_ACRE.geojson': ['#000000',6]
+        'mineria.geojson': ['#663d00', 22],
+        'MineriaIlegal.geojson': ['#663d00',21],
+        'Tis_titled.geojson': ['#ff3300',20],
+        'Tis_untitled.geojson': ['#b32400',19],
+        'Tis_reserves.geojson': ['#801a00',18],
+        'Tis_proposedreserves.geojson': ['#4d0f00', 17],
+        'Admin_ProjectoAssentamento_INCRA_2017.geojson': ['#330000', 16],
+        'Concesiones_reforestation.geojson': ['#000000',15],
+        'Concesiones_ecotourism.geojson': ['#000000',14],
+        'Concesiones_conservation.geojson': ['#000000',13],
+        'Concesiones_logging.geojson': ['#000000', 12],
+        'Proposed_conservation.geojson': ['#1a3300',11],
+        'ANP.geojson': ['#003300',10],
+        'petroleo_explorexploit.geojson': ['#52527a',9],
+        'petroleo_inprocess.geojson': ['#666699',8],
+        'watersheds_lev09_v1c.geojson': ['#000099',7],
+        'acre_municipalities.geojson': ['#000000',6],
+        'ucayali_DISTRITO.geojson': ['#000000',5],
+        'UCA_ACRE.geojson': ['#000000',4]
         
     };
 
@@ -680,7 +680,7 @@ var GEE_DATASETS = (function () {
         // largest layers go on bottom, smaller ones on top since many will overlap
         // uploaded layers will go on top of the stored layers
         // polygons on bottom, lines in middle, points on top
-        var stackPos = 6;
+        var stackPos = 4;
         var currentLayerPos;
         try {
             currentLayerPos = nameFields[filename][1];
@@ -694,7 +694,7 @@ var GEE_DATASETS = (function () {
         }
         
         if (m_gee_layer) { // have to shift up an index if imagery is loaded
-            stackPos = 7;
+            stackPos = 5;
         };
 
         // it's a little weird to relate the order from the dictionary to the stack, so for now this goes through

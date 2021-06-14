@@ -180,8 +180,6 @@ def home(request):
             }}
         ],
         basemap=[
-            {'CartoDB': {'control_label': _('CartoDB-light')}},
-            {'CartoDB': {'style': 'dark', 'control_label': _('CartoDB-dark')}},
             'OpenStreetMap', # for some reason setting the labels here breaks everything. maybe bc it's too close to the default?
             'Stamen', # here too
             {'Bing': {'key': bing_key, 'imagerySet': 'Aerial', 'control_label': _('BingAerial')}}
