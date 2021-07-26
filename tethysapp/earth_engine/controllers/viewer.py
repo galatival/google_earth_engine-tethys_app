@@ -16,7 +16,6 @@ from tethys_sdk.permissions import login_required
 
 log = logging.getLogger(f'tethys.apps.{__name__}')
 
-@login_required()
 def get_image_collection(request):
     """
     Controller to handle image collection requests.
@@ -57,7 +56,6 @@ def get_image_collection(request):
 
     return JsonResponse(response_data)
 
-@login_required()
 def get_time_series_plot(request):
     context = {'success': False}
     

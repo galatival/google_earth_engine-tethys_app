@@ -20,7 +20,6 @@ log = logging.getLogger(f'tethys.apps.{__name__}')
 
 
 
-@login_required()
 def home(request):
     """
     Controller for the app home page.
