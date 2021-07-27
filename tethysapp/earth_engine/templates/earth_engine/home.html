@@ -40,7 +40,7 @@
     <br>
 
     <!-- Layer Selection -->
-    {% gizmo select_layer %} 
+    {% gizmo select_layer %}
     <label for="test-input">{% trans 'FileInputHeader' %}</label>
     <a class="help" href="#" data-toggle="tooltip" data-placement="right" title="{% trans 'UploadHelp' %}">&#9432;</a>
     <input type="file" id="file-input" name="file-input" accept=".zip,.kml,.geojson,.json">
@@ -58,12 +58,18 @@
     <br>
 
     <button type="button" id="eeapp-about-label">{% trans 'AboutButton' %}</button>
+    
+
+
 
 </div>
 {% endblock %}
 
 {% block app_content %}
   {% gizmo map_view %}
+  <div>
+      <p><img src="{% static 'earth_engine/images/shield_richmond.png' %}" alt="URichmond Shield" style="width:48px;height:57px" vspace="6" hspace="19">Created by Valerie Galati (University of Richmond ABSAT)</p>
+  </div>
 {% endblock %}
 
 {# Use the after_app_content block for modals #}
