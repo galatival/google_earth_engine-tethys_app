@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-11 13:37-0400\n"
+"POT-Creation-Date: 2021-07-27 14:42-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,221 +18,213 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\tethysapp\earth_engine\controllers\home.py:38
+#: .\tethysapp\earth_engine\controllers\home.py:37
 msgid "SatellitePlatform"
 msgstr "Satellite Platform"
 
-#: .\tethysapp\earth_engine\controllers\home.py:53
+#: .\tethysapp\earth_engine\controllers\home.py:52
 msgid "Sensor"
 msgstr "Sensor"
 
-#: .\tethysapp\earth_engine\controllers\home.py:64
+#: .\tethysapp\earth_engine\controllers\home.py:63
 msgid "Product"
 msgstr "Product"
 
-#: .\tethysapp\earth_engine\controllers\home.py:73
+#: .\tethysapp\earth_engine\controllers\home.py:72
 msgid "StartDate"
 msgstr "Start Date"
 
-#: .\tethysapp\earth_engine\controllers\home.py:86
+#: .\tethysapp\earth_engine\controllers\home.py:85
 msgid "EndDate"
 msgstr "End Date"
 
-#: .\tethysapp\earth_engine\controllers\home.py:100
+#: .\tethysapp\earth_engine\controllers\home.py:99
 msgid "ReductionMethod"
 msgstr "Reduction Method"
 
-#: .\tethysapp\earth_engine\controllers\home.py:102
+#: .\tethysapp\earth_engine\controllers\home.py:101
 msgid "median"
 msgstr "Median"
 
-#: .\tethysapp\earth_engine\controllers\home.py:103
+#: .\tethysapp\earth_engine\controllers\home.py:102
 msgid "mean"
 msgstr "Mean"
 
-#: .\tethysapp\earth_engine\controllers\home.py:104
+#: .\tethysapp\earth_engine\controllers\home.py:103
 msgid "mode"
 msgstr "Mode"
 
-#: .\tethysapp\earth_engine\controllers\home.py:105
+#: .\tethysapp\earth_engine\controllers\home.py:104
 msgid "min"
 msgstr "Minimum"
 
-#: .\tethysapp\earth_engine\controllers\home.py:106
+#: .\tethysapp\earth_engine\controllers\home.py:105
 msgid "max"
 msgstr "Maximum"
 
-#: .\tethysapp\earth_engine\controllers\home.py:107
+#: .\tethysapp\earth_engine\controllers\home.py:106
 msgid "sum"
 msgstr "Sum"
 
-#: .\tethysapp\earth_engine\controllers\home.py:108
+#: .\tethysapp\earth_engine\controllers\home.py:107
 msgid "count"
 msgstr "Count"
 
-#: .\tethysapp\earth_engine\controllers\home.py:109
+#: .\tethysapp\earth_engine\controllers\home.py:108
 msgid "product"
 msgstr "Product"
 
-#: .\tethysapp\earth_engine\controllers\home.py:116
+#: .\tethysapp\earth_engine\controllers\home.py:115
 msgid "LoadImagery"
 msgstr "Load Imagery"
 
-#: .\tethysapp\earth_engine\controllers\home.py:123
+#: .\tethysapp\earth_engine\controllers\home.py:122
 msgid "ClearImagery"
 msgstr "Clear Imagery"
 
-#: .\tethysapp\earth_engine\controllers\home.py:131
+#: .\tethysapp\earth_engine\controllers\home.py:130
 msgid "PlotAOI"
 msgstr "Plot AOI"
 
-#: .\tethysapp\earth_engine\controllers\home.py:139
+#: .\tethysapp\earth_engine\controllers\home.py:138
 msgid "LayerHeader"
 msgstr "Load Layers:"
 
-#: .\tethysapp\earth_engine\controllers\home.py:143
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:106
+#: .\tethysapp\earth_engine\controllers\home.py:142
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:107
 msgid "Watersheds"
 msgstr "Watersheds"
 
-#: .\tethysapp\earth_engine\controllers\home.py:144
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:107
+#: .\tethysapp\earth_engine\controllers\home.py:143
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:108
 msgid "SettlProj"
 msgstr "Settlement Projects"
 
-#: .\tethysapp\earth_engine\controllers\home.py:145
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:108
+#: .\tethysapp\earth_engine\controllers\home.py:144
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:109
 msgid "AcreMunic"
 msgstr "Acre Municipalities"
 
-#: .\tethysapp\earth_engine\controllers\home.py:146
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:109
+#: .\tethysapp\earth_engine\controllers\home.py:145
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:110
 msgid "UcaDist"
 msgstr "Ucayali Districs"
 
-#: .\tethysapp\earth_engine\controllers\home.py:147
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:110
+#: .\tethysapp\earth_engine\controllers\home.py:146
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:111
 msgid "UcaAcre"
 msgstr "National Border"
 
-#: .\tethysapp\earth_engine\controllers\home.py:148
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:111
+#: .\tethysapp\earth_engine\controllers\home.py:147
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:112
 msgid "TITitled"
 msgstr "Indigenous Territories/Native Communities"
 
-#: .\tethysapp\earth_engine\controllers\home.py:149
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:111
+#: .\tethysapp\earth_engine\controllers\home.py:148
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:112
 msgid "TIUntitled"
 msgstr "Indigenous Territories/Native Communities in Titling Process"
 
-#: .\tethysapp\earth_engine\controllers\home.py:150
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:111
+#: .\tethysapp\earth_engine\controllers\home.py:149
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:112
 msgid "TIReserves"
 msgstr ""
-"Reserve/Territory for Indigenous People in Isolation and/or Initial "
-"Contact (PIACI)"
+"Reserve/Territory for Indigenous People in Isolation and/or Initial Contact "
+"(PIACI)"
 
-#: .\tethysapp\earth_engine\controllers\home.py:151
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:111
+#: .\tethysapp\earth_engine\controllers\home.py:150
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:112
 msgid "TIProposedReserves"
 msgstr "Proposed Indigenous Reserves"
 
-#: .\tethysapp\earth_engine\controllers\home.py:152
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:112
+#: .\tethysapp\earth_engine\controllers\home.py:151
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:113
 msgid "ANPs"
 msgstr "Protected Natural Areas"
 
-#: .\tethysapp\earth_engine\controllers\home.py:153
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:113
+#: .\tethysapp\earth_engine\controllers\home.py:152
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:114
 msgid "ProposedConserv"
 msgstr "Proposed Conservation Areas"
 
-#: .\tethysapp\earth_engine\controllers\home.py:154
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:114
+#: .\tethysapp\earth_engine\controllers\home.py:153
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:115
 msgid "ConcessionsLogging"
 msgstr "Logging Concession Areas"
 
-#: .\tethysapp\earth_engine\controllers\home.py:155
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:114
+#: .\tethysapp\earth_engine\controllers\home.py:154
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:115
 msgid "ConcessionsConservation"
 msgstr "Conservation Concession Areas"
 
-#: .\tethysapp\earth_engine\controllers\home.py:156
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:114
+#: .\tethysapp\earth_engine\controllers\home.py:155
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:115
 msgid "ConcessionsReforestation"
 msgstr "Forestation/Reforestation Concession Areas"
 
-#: .\tethysapp\earth_engine\controllers\home.py:157
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:114
+#: .\tethysapp\earth_engine\controllers\home.py:156
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:115
 msgid "ConcessionsEcotourism"
 msgstr "Ecotourism Concession Areas"
 
-#: .\tethysapp\earth_engine\controllers\home.py:158
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:115
+#: .\tethysapp\earth_engine\controllers\home.py:157
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:116
 msgid "PetroleumExt"
 msgstr "Petrolium Lots in Exploitation/Exploration"
 
-#: .\tethysapp\earth_engine\controllers\home.py:159
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:115
+#: .\tethysapp\earth_engine\controllers\home.py:158
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:116
 msgid "PetroleumProc"
 msgstr "Petrolium Lots in Process"
 
-#: .\tethysapp\earth_engine\controllers\home.py:160
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:116
+#: .\tethysapp\earth_engine\controllers\home.py:159
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:117
 msgid "Mining"
 msgstr "Mining"
 
-#: .\tethysapp\earth_engine\controllers\home.py:161
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:116
+#: .\tethysapp\earth_engine\controllers\home.py:160
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:118
 msgid "IllegalMining"
 msgstr "Illegal Mining"
 
-#: .\tethysapp\earth_engine\controllers\home.py:183
-msgid "CartoDB-light"
-msgstr "CartoDB-light"
-
 #: .\tethysapp\earth_engine\controllers\home.py:184
-msgid "CartoDB-dark"
-msgstr "CartoDB-dark"
-
-#: .\tethysapp\earth_engine\controllers\home.py:187
 msgid "BingAerial"
 msgstr "Bing Aerial"
 
-#: .\tethysapp\earth_engine\controllers\viewer.py:96
+#: .\tethysapp\earth_engine\controllers\viewer.py:94
 msgid "NoAOIError"
 msgstr "Please draw an area of interest."
 
-#: .\tethysapp\earth_engine\controllers\viewer.py:100
+#: .\tethysapp\earth_engine\controllers\viewer.py:98
 #, python-format
 msgid ""
 "We're sorry, but plotting %(product)s is not supported at this time. Please "
 "select a different product."
 msgstr ""
-"We're sorry, but plotting %(product)s is not supported at this time. "
-"Please select a different product."
+"We're sorry, but plotting %(product)s is not supported at this time. Please "
+"select a different product."
 
-#: .\tethysapp\earth_engine\controllers\viewer.py:135
+#: .\tethysapp\earth_engine\controllers\viewer.py:133
 msgid "An unexpected error has occurred. Please try again."
 msgstr "An unexpected error has occurred. Please try again."
 
 #: .\tethysapp\earth_engine\gee\products.py:7
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:98
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:99
 msgid "NetEvap8Day500m"
 msgstr "Net Evapotranspiration 8-Day 500m"
 
 #: .\tethysapp\earth_engine\gee\products.py:18
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:99
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:100
 msgid "NDVI16Day500m"
 msgstr "NDVI 16-Day 500m"
 
 #: .\tethysapp\earth_engine\gee\products.py:33
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:100
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:101
 msgid "8DayNDVI"
 msgstr "8-Day NDVI 30m"
 
 #: .\tethysapp\earth_engine\gee\products.py:44
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:101
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:102
 msgid "32DayNDVI"
 msgstr "32-Day NDVI 30m"
 
@@ -257,14 +249,13 @@ msgstr "Upload file to add to the map"
 #: .\tethysapp\earth_engine\templates\earth_engine\home.html:45
 msgid "UploadHelp"
 msgstr ""
-"To choose a file to add to the map, click 'Choose File'. Supported "
-"file types are KML, geojson, and zipped shapefile archives (containing "
-"at the minimum .shp and .dbf files)."
+"To choose a file to add to the map, click 'Choose File'. Supported file "
+"types are KML, geojson, and zipped shapefile archives (containing at the "
+"minimum .shp and .dbf files)."
 
 #: .\tethysapp\earth_engine\templates\earth_engine\home.html:47
 msgid "AddSelectedFile"
-msgstr ""
-"Add Selected File to Map"
+msgstr "Add Selected File to Map"
 
 #: .\tethysapp\earth_engine\templates\earth_engine\home.html:51
 msgid "PlotHelp"
@@ -286,40 +277,65 @@ msgid "AOIModalHeader"
 msgstr "Area of Interest Plot"
 
 #: .\tethysapp\earth_engine\templates\earth_engine\home.html:96
+msgid "AboutMessage1"
+msgstr "This work was created by the"
+
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:96
+msgid "URABSAT"
+msgstr "University of Richmond Amazon Borderlands Spatial Analysis Team"
+
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:96
+msgid "AboutMessage2"
+msgstr "and is a part of the NASA-SERVIR Amazonia project"
+
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:96
+msgid "SERVIRProject"
+msgstr "Quantifying the Effects of Forest Changes on Provisioning and Regulating Ecosystem Services"
+
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:97
 msgid "RSSourceHeader"
 msgstr "Imagery Dataset Sources"
 
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:100
 #: .\tethysapp\earth_engine\templates\earth_engine\home.html:101
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:102
 msgid "CalculatedFrom"
 msgstr "calculated from"
 
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:100
 #: .\tethysapp\earth_engine\templates\earth_engine\home.html:101
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:102
 msgid "ExampleCalc"
 msgstr "example calculation"
 
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:104
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:105
 msgid "AboutLayerHeader"
 msgstr "Layer Data Sources"
 
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:106
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:107
 msgid "Documentation"
 msgstr "documentation"
 
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:106
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:111
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:107
 #: .\tethysapp\earth_engine\templates\earth_engine\home.html:112
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:114
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:113
 #: .\tethysapp\earth_engine\templates\earth_engine\home.html:115
 #: .\tethysapp\earth_engine\templates\earth_engine\home.html:116
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:117
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:118
 msgid "Download"
 msgstr "download"
 
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:119
-msgid "ContactHeader"
-msgstr "Contact"
+#: .\tethysapp\earth_engine\templates\earth_engine\home.html:123
+msgid "FundingMessage"
+msgstr "This work has been funded by NASA Grant no. 80NSSC20K0165"
 
-#: .\tethysapp\earth_engine\templates\earth_engine\home.html:120
-msgid "ContactBody"
-msgstr "Contact us at..."
+#~ msgid "CartoDB-light"
+#~ msgstr "CartoDB-light"
+
+#~ msgid "CartoDB-dark"
+#~ msgstr "CartoDB-dark"
+
+#~ msgid "ContactHeader"
+#~ msgstr "Contact"
+
+#~ msgid "ContactBody"
+#~ msgstr "Contact us at..."

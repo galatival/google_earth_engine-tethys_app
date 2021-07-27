@@ -13,4 +13,5 @@
 *.zip
 *.json
 .idea/
+.vs/
 services.yml
